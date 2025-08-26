@@ -22,7 +22,9 @@ class FeatureRequest extends FormRequest
                 'regex:/^[A-Z0-9_]+$/',
             'status'      => 'required|string|in:active,inactive',
             'user_group'  => 'nullable|array',
-            'user_group.*'=> 'integer|exists:roles,id'
+            'user_group.*'=> 'integer|exists:roles,id',
+            'schedule_from'=> 'nullable|date',
+            'schedule_to'  => 'nullable|date|after:schedule_from',
         ];
     }
 
