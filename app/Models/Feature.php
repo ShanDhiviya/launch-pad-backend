@@ -13,7 +13,7 @@ class Feature extends Model
      protected $fillable = [
         'name',
         'description',
-        'key',
+        'flag',
         'status',
         'user_group',
         'schedule_from',
@@ -28,8 +28,8 @@ class Feature extends Model
     protected static function booted()
 {
     static::creating(function ($feature) {
-        if (empty($feature->key) && !empty($feature->name)) {
-            $feature->key = strtoupper(str_replace(' ', '_', $feature->name));
+        if (empty($feature->flag) && !empty($feature->name)) {
+            $feature->flag = strtoupper(str_replace(' ', '_', $feature->name));
         }
     });
 }

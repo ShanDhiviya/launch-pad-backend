@@ -16,9 +16,9 @@ class FeatureRequest extends FormRequest
         return [
             'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
-            'key'         =>
+            'flag'         =>
                 'string',
-                'unique:features,key',
+                'unique:features,flag',
                 'regex:/^[A-Z0-9_]+$/',
             'status'      => 'required|string|in:active,inactive',
             'user_group'  => 'nullable|array',
@@ -32,7 +32,7 @@ class FeatureRequest extends FormRequest
     {
         if ($this->has('key')) {
             $this->merge([
-                'key' => strtoupper(str_replace(' ', '_', $this->key)),
+                'flag' => strtoupper(str_replace(' ', '_', $this->key)),
             ]);
         }
     }
@@ -40,7 +40,7 @@ class FeatureRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'key.regex' => 'The key may only contain uppercase letters, numbers, and underscores (e.g., PHOTO_UPLOAD).',
+            'flag.regex' => 'The flag may only contain uppercase letters, numbers, and underscores (e.g., PHOTO_UPLOAD).',
         ];
     }
 }

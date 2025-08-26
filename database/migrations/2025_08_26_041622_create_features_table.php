@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description')->nullable();
-            $table->string('key')->unique();
+            $table->string('flag')->unique();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->json('user_group')->nullable();
             $table->timestamp('schedule_from')->nullable();
