@@ -13,7 +13,7 @@ class ReportPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->role->name === 'admin';
     }
 
     /**
@@ -33,11 +33,14 @@ class ReportPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Determine whether the user can modify the model.
      */
-    public function update(User $user, Report $report): bool
+    public function modify(User $user, Report $report): Response
     {
-        return false;
+        return $user->id === $report->user_id || $user->role->name === 'admin'
+            ? Response::allow()
+            : Response::deny('You do not own this report.');
+
     }
 
     /**
