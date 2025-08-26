@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UserRequest;
+use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
@@ -13,7 +14,7 @@ class UserController extends Controller
     public function index()
     {
         if (Auth::user()->isRole('admin')) {
-            return User::all()->load('role');
+            return UserResource::collection(User::all()->load('role'));
         }
 
         return response()->json([
@@ -45,10 +46,10 @@ class UserController extends Controller
     public function show(User $user)
     {
        if(Auth::user()->isRole('admin')){
-           return $user->load('role');
+          return new UserResource($user->load('role'));
        }
 
-        return Auth::id() === $user->id ? $user : response()->json([
+        return Auth::id() === $user->id ? new UserResource($user) : response()->json([
             "message" => "Access denied"
         ], 403);
     }
