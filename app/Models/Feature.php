@@ -18,7 +18,6 @@ class Feature extends Model
         'user_group'
     ];
 
-
       protected $casts = [
         'user_group' => 'array',
     ];

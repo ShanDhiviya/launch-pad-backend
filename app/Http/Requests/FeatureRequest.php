@@ -11,7 +11,6 @@ class FeatureRequest extends FormRequest
         return true;
     }
 
-
     public function rules(): array
     {
         return [
@@ -21,7 +20,7 @@ class FeatureRequest extends FormRequest
                 'string',
                 'unique:features,key',
                 'regex:/^[A-Z0-9_]+$/',
-            'status'      => 'required|boolean',
+            'status'      => 'required|string|in:active,inactive',
             'user_group'  => 'nullable|array',
             'user_group.*'=> 'integer|exists:roles,id'
         ];

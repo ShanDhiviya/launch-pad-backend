@@ -17,8 +17,12 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
+    // Custom Status Route
+    Route::get('features/status', [FeatureController::class, 'status']);
+
     // Features Routes
     Route::apiResource('features', FeatureController::class);
+
 
     // Reports Routes
     Route::apiResource('reports', ReportController::class);
@@ -29,6 +33,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::get('/profile', [AuthController::class, 'profile']);
+
+
 });
 
 // Health check (Basic)

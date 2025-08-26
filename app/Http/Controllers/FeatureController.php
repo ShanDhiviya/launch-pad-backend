@@ -44,4 +44,18 @@ class FeatureController extends Controller
         $feature->delete();
         return response()->json(['message' => 'Feature deleted successfully'], 204);
     }
+
+
+    public function status(Request $request)
+{
+    $status = $request->query('status');
+    $query = Feature::query();
+
+    if ($status) {
+        $query->where('status', $status);
+    }
+
+    return response()->json($query->get());
+}
+
 }
