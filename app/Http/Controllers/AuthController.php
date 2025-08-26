@@ -1,32 +1,35 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
 
+    private $token = null;
+
     public function register (Request $request) {
        $fields =  $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'name' => 'required|string',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|confirmed',
         ]);
 
         $user = User::create($fields);
+        $token = $user->createToken($request->email);
 
         return response()->json(
             [
-                'message' => 'User registered successfully',
-                'user' => $user
-            ], 201
+                'user' => $user,
+                'token' => $token,
+            ]
         );
     }
 
     public function login (Request $request) {
         $request->validate([
-            'email' => 'required|string|email|exists:users,email',
+            'email' => 'required|string|email|exists:users',
             'password' => 'required',
         ]);
 
@@ -35,13 +38,21 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        $token = $user->createToken($user->name);
+        $token = $user->createToken($request->email);
 
         return response()->json([
             'message' => 'User logged in successfully',
-            'access_token' => $token,
+            'token' => $token,
             'user' => $user,
         ],201);
+    }
+
+    public function profile(Request $request) {
+
+        $user = $request->user()->load('role');
+        return response()->json([
+            'user' => $user,
+        ]);
     }
 
     public function logout (Request $request) {

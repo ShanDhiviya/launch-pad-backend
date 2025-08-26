@@ -3,67 +3,61 @@
 namespace App\Http\Controllers;
 use App\Models\Report;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ReportRequest;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class ReportController extends Controller
+class ReportController extends Controller implements HasMiddleware
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        return Report::all();
+
+    public static function middleware(){
+        return [new Middleware('auth:sanctum', except:['index','show'])];
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function index(Request $request)
     {
 
-       $fields= $request->validate([
-            'title' => 'required|string|max:100',
-            'description' => 'string|max:255',
-            'location'=>'required|string|max:100',
-            'date_of_incident'=>'required|date',
-            'time_of_incident'=>'required|time',
-            'damage_severity'=>'required|string|max:100',
-            'estimated_cost'=>'required|numeric',
-            'photos'=>'array',
-            'status'=>'required|string|max:100',
-        ]);
+        if (Auth::user()->isRole('admin')) {
+            return Report::with('user')->get();
+        }
 
-        $post = Post::create($fields);
-        return $post;
+        return Report::with('user')->where('user_id', Auth::id())->get();
 
     }
 
-    /**
-     * Display the specified resource.
-     */
+    public function store(ReportRequest $request)
+    {
+
+       $fields= $request->validated();
+
+        $report = $request->user()->reports()->create($fields);
+        return $report;
+
+    }
+
     public function show(Report $report)
     {
         return $report;
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Report $report)
+    public function update(ReportRequest $request, Report $report)
     {
-           $fields= $request->validate([
-            'title' => 'required|string|max:100',
-            'description' => 'string|max:255',
-            'location'=>'required|string|max:100',
-            'date_of_incident'=>'required|date',
-            'time_of_incident'=>'required|time',
-            'damage_severity'=>'required|string|max:100',
-            'estimated_cost'=>'required|numeric',
-            'photos'=>'array',
-            'status'=>'required|string|max:100',
-        ]);
+
+        Gate::authorize('modify', $report);
+
+            $fields= $request->validated();
 
         $report->update($fields);
-        return $report;
+             return response()->json([
+            'success' => true,
+            'message' => 'Report updated successfully.',
+            'data' => $report
+        ], 200);
+
     }
 
     /**
@@ -71,6 +65,7 @@ class ReportController extends Controller
      */
     public function destroy(Report $report)
     {
+        Gate::authorize('modify', $report);
         $report->delete();
         return response()->json(['message' => 'Report deleted successfully'], 204);
     }
