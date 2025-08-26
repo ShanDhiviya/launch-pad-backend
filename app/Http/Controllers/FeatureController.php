@@ -3,44 +3,42 @@
 namespace App\Http\Controllers;
 use App\Models\Feature;
 use Illuminate\Http\Request;
+use App\Http\Requests\FeatureRequest;
 
 class FeatureController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         return Feature::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(FeatureRequest $request)
     {
-        //
+        $fields = $request->validated();
+        $feature = Feature::create($fields);
+
+        return response()->json([
+            'message' => 'Feature created successfully.',
+            'data' => $feature
+        ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Feature $feature)
     {
         return $feature;
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Feature $feature)
+    public function update(FeatureRequest $request, Feature $feature)
     {
-        //
+        $feature->update($request->validated());
+
+        return response()->json([
+            'message' => 'Feature updated successfully.',
+            'data' => $feature
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Feature $feature)
     {
         $feature->delete();

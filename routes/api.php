@@ -17,8 +17,8 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
-    // Feature Routes
-    Route::apiResource('feature', FeatureController::class);
+    // Features Routes
+    Route::apiResource('features', FeatureController::class);
 
     // Reports Routes
     Route::apiResource('reports', ReportController::class);

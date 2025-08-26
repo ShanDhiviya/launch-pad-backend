@@ -13,7 +13,23 @@ class Feature extends Model
      protected $fillable = [
         'name',
         'description',
-        'rollout_type',
+        'key',
         'status',
+        'user_group'
     ];
+
+
+      protected $casts = [
+        'user_group' => 'array',
+    ];
+
+
+    protected static function booted()
+{
+    static::creating(function ($feature) {
+        if (empty($feature->key) && !empty($feature->name)) {
+            $feature->key = strtoupper(str_replace(' ', '_', $feature->name));
+        }
+    });
+}
 }
