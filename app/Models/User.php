@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Report;
 use App\Models\Role;
+use App\Models\Feature;
 
 class User extends Authenticatable
 {
@@ -51,4 +52,9 @@ class User extends Authenticatable
     public function reports(){
         return $this->hasMany(Report::class);
     }
+
+    public function features()
+{
+    return Feature::whereJsonContains('user_group', $this->role_id)->get();
+}
 }

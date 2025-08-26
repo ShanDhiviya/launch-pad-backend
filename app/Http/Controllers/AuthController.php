@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\UserResource;
+
 class AuthController extends Controller
 {
-
-    private $token = null;
 
     public function register (Request $request) {
        $fields =  $request->validate([
@@ -49,7 +49,7 @@ class AuthController extends Controller
 
     public function profile(Request $request) {
 
-        $user = $request->user()->load('role');
+        $user = new UserResource($request->user()->load('role'));
         return response()->json([
             'user' => $user,
         ]);
@@ -59,16 +59,5 @@ class AuthController extends Controller
 
         $request->user()->tokens()->delete();
         return response()->json(['message' => 'User logged out successfully']);
-    }
-
-    public function changePassword (Request $request) {
-        $request->validate([
-            'current_password' => 'required|string',
-            'new_password' => 'required|string|min:8|confirmed',
-        ]);
-
-        // Logic to change the password
-
-        return response()->json(['message' => 'Password changed successfully']);
     }
 }

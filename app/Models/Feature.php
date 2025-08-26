@@ -15,7 +15,9 @@ class Feature extends Model
         'description',
         'key',
         'status',
-        'user_group'
+        'user_group',
+        'schedule_from',
+        'schedule_to'
     ];
 
       protected $casts = [
