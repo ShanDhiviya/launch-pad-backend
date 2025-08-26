@@ -13,15 +13,16 @@ return new class extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
             $table->string('title');
             $table->text('description');
-            $table->string('location');
-            $table->date('date_of_incident');
-            $table->time('time_of_incident');
-            $table->enum('damage_severity', ['high', 'medium', 'low']);
-            $table->decimal('estimated_cost', 10, 2);
-            $table->json('photos')->nullable();
-            $table->enum('status', ['draft', 'submitted', 'reviewed','approved','rejected']);
+            $table->string('location')->nullable();
+            $table->date('date_of_incident')->nullable();
+            $table->time('time_of_incident')->nullable();
+            $table->enum('damage_severity', ['high', 'medium', 'low'])->default('low');
+            $table->decimal('estimated_cost', 10, 2)->nullable();
+            $table->string('photos')->nullable();
+            $table->enum('status', ['draft', 'submitted', 'reviewed','approved','rejected'])->default('draft');
             $table->timestamps();
         });
     }
