@@ -30,3 +30,9 @@
 ### ▶️ Start the local development server
 
 `php artisan serve`
+
+### ✉️ Postman collections available for API walkthrough 
+
+`Launch pad API.postman_collection.json`
+
+[Launch pad API.postman_collection.json](The%20Collection)
