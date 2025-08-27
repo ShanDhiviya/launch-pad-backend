@@ -11,14 +11,18 @@
 
 
 Updated Branch name 'main'
+
 Rename the env file -> .env
 Run the following commands to launch the API
 
 Run the migrations and seed database
+
 `php artisan migrate --seed`
 
 Clear caches (important after pulling new code)
+
 `php artisan cache:clear
 `
 Start the local development server
+
 `php artisan serve`
