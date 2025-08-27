@@ -35,4 +35,4 @@
 
 `Launch pad API.postman_collection.json`
 
-[Launch pad API.postman_collection.json](The%20Collection)
+[Launch pad API](Launch pad API.postman_collection.json)
