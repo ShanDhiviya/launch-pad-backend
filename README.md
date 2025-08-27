@@ -15,6 +15,10 @@
 
 #### Run the following commands to launch the API
 
+### Dependency installations
+
+`composer install`
+
 ### 🛠️Run the migrations and seed database
 
 `php artisan migrate --seed`
