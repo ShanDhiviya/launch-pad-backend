@@ -7,15 +7,15 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About the project 
+## 🚀 Project Setup Guide
 
-#### Updated Branch name 'main'
+#### 📌 Updated Branch name 'main'
 
-#### Rename the env file -> .env
+#### 📂Rename the env file -> .env
 
 #### Run the following commands to launch the API
 
-### Run the migrations and seed database
+### 🛠️Run the migrations and seed database
 
 `php artisan migrate --seed`
 
@@ -23,6 +23,6 @@
 
 `php artisan cache:clear
 `
-### Start the local development server
+### ▶️ Start the local development server
 
 `php artisan serve`
