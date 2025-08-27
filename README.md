@@ -9,11 +9,11 @@
 
 ## About the project 
 
+#### Updated Branch name 'main'
 
-Updated Branch name 'main'
+#### Rename the env file -> .env
 
-Rename the env file -> .env
-Run the following commands to launch the API
+#### Run the following commands to launch the API
 
 ### Run the migrations and seed database
 
