@@ -23,6 +23,10 @@ class Report extends Model
         'status',
     ];
 
+     protected $casts = [
+        'photos' => 'array'
+    ];
+
     public function user(){
         return $this->belongsTo(User::class);
     }

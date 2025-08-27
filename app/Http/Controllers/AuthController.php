@@ -21,7 +21,7 @@ class AuthController extends Controller
 
         return response()->json(
             [
-                'user' => $user,
+                'user' => $user->load('role'),
                 'token' => $token,
             ]
         );
@@ -43,8 +43,8 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'User logged in successfully',
             'token' => $token,
-            'user' => $user,
-        ],201);
+            'user' => $user->load('role'),
+        ],200);
     }
 
     public function profile(Request $request) {
