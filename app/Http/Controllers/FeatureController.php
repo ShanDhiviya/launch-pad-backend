@@ -4,13 +4,22 @@ namespace App\Http\Controllers;
 use App\Models\Feature;
 use Illuminate\Http\Request;
 use App\Http\Requests\FeatureRequest;
+use Illuminate\Support\Facades\Auth;
 
 class FeatureController extends Controller
 {
 
     public function index()
     {
-        return Feature::all();
+
+        if (Auth::user()->isRole('admin')) {
+             return Feature::all();
+        }
+
+        return response()->json([
+            "message" => "Access denied"
+        ], 403);
+
     }
 
     public function store(FeatureRequest $request)
