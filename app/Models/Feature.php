@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Role;
 
 class Feature extends Model
 {
@@ -24,6 +25,12 @@ class Feature extends Model
         'user_group' => 'array',
     ];
 
+    protected $appends = ['roles'];
+
+    public function getRolesAttribute()
+    {
+        return Role::whereIn('id', $this->user_group ?? [])->get();
+    }
 
     protected static function booted()
 {

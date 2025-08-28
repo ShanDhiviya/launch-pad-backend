@@ -13,7 +13,7 @@ class FeatureController extends Controller
     {
 
         if (Auth::user()->isRole('admin')) {
-             return Feature::all();
+            return Feature::all();
         }
 
         return response()->json([
